@@ -1,0 +1,169 @@
+/* ------------------------------------ */
+/* 1. Global Setup & High Contrast Theme */
+/* ------------------------------------ */
+:root {
+    --color-bg-dark: #121212;
+    --color-text-light: #e0e0e0;
+    --color-accent-red: #ff4757;
+    --color-card-dark: #1e1e1e;
+    --color-card-hover: #2e2e2e;
+}
+
+*, *::before, *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+    background-color: var(--color-bg-dark);
+    color: var(--color-text-light);
+    min-height: 100vh;
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* ------------------------------------ */
+/* 2. Header Style */
+/* ------------------------------------ */
+h1 {
+    font-size: 3rem;
+    margin-bottom: 2rem;
+    letter-spacing: 1px;
+    color: var(--color-accent-red);
+    text-shadow: 0 0 10px rgba(255, 71, 87, 0.5);
+}
+
+/* ------------------------------------ */
+/* 3. List Layout (Using Grid for Pairs) */
+/* ------------------------------------ */
+ul {
+    list-style: none;
+    display: grid;
+    /* Create a grid with repeating columns that auto-fit the content, 
+       ensuring responsiveness. Each pair (img + li) takes up two grid cells. */
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr) minmax(180px, 2fr));
+    gap: 1.5rem 1rem;
+    max-width: 1200px;
+    width: 100%;
+    padding: 1rem;
+}
+
+/* ------------------------------------ */
+/* 4. Image Styling */
+/* ------------------------------------ */
+ul img {
+    /* Style the image component */
+    width: 100%; /* Make the image fill its grid cell */
+    max-width: 120px;
+    height: 120px;
+    object-fit: cover;
+    border-radius: 50%; /* Perfect circle */
+    border: 4px solid var(--color-accent-red);
+    box-shadow: 0 0 15px rgba(255, 71, 87, 0.4);
+    transition: transform 0.3s ease-in-out, box-shadow 0.3s ease;
+    justify-self: center; /* Center image in its grid cell */
+    align-self: center; /* Vertically center in its grid cell */
+}
+
+ul img:hover {
+    transform: scale(1.05);
+    box-shadow: 0 0 25px var(--color-accent-red);
+}
+
+/* ------------------------------------ */
+/* 5. List Item & Link Styling (The Name Card) */
+/* ------------------------------------ */
+ul li {
+    /* Style the container for the link */
+    background-color: var(--color-card-dark);
+    border-radius: 12px;
+    padding: 0.5rem 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    transition: background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+    min-height: 120px; /* Match height of image for alignment */
+    align-self: center;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+}
+
+ul li:hover {
+    background-color: var(--color-card-hover);
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5);
+}
+
+ul li a {
+    /* Style the hyperlink text */
+    text-decoration: none;
+    color: var(--color-text-light);
+    font-size: 1.25rem;
+    font-weight: 600;
+    transition: color 0.3s ease;
+}
+
+ul li:hover a {
+    color: var(--color-accent-red);
+}
+
+
+/* ------------------------------------ */
+/* 6. Mobile Responsiveness */
+/* ------------------------------------ */
+@media (max-width: 768px) {
+    h1 {
+        font-size: 2.5rem;
+        margin-bottom: 1.5rem;
+    }
+    
+    ul {
+        /* On smaller screens, switch to a 1-column layout, 
+           with each item pair (img, li) stacking vertically. */
+        grid-template-columns: 1fr; 
+        gap: 1rem;
+    }
+    
+    ul img {
+        /* In 1-column layout, make the image smaller and align left */
+        max-width: 100px;
+        height: 100px;
+        justify-self: start;
+        align-self: start;
+        /* To keep the image and name together visually on mobile, 
+           we wrap them in a pseudo-container logic using the grid. */
+        grid-row: auto; 
+    }
+    
+    ul li {
+        /* Align the text field next to the image on the same row, then let it wrap */
+        min-height: auto;
+        padding: 0.75rem 1rem;
+        border-radius: 8px;
+    }
+    
+    /* Since we can't wrap the img and li in a single parent, we rely on the 
+       flow in a single column grid. Let's make sure the image and li are placed 
+       on their own line when stacked. */
+    ul {
+        /* Let's redefine the grid for mobile to pair them horizontally first */
+        grid-template-columns: 100px 1fr; /* 100px for image, rest for name */
+        gap: 0.5rem 1rem;
+    }
+    
+    ul img {
+        /* Reset mobile size */
+        width: 100px; 
+        height: 100px;
+        grid-column: 1 / 2;
+    }
+    
+    ul li {
+        /* Place the list item next to the image */
+        grid-column: 2 / 3;
+        min-height: 100px; /* Match image height */
+    }
+}
